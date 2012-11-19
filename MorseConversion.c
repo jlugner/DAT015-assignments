@@ -8,8 +8,10 @@
 
 #include <stdio.h>
 #include "MorseConversion.h"
+#include <string.h>
 
-char* morse_table[26] = {
+const int TABLE_LENGTH = 26;
+const char* morse_table[26] = {
     ".-",           //A
     "-...",         //B
     "-.-.",         //C
@@ -69,8 +71,27 @@ int index_of_char(char character)
     return -1;
 }
 
+int index_of_morse( char *word)
+{
+    for (int i = 0; i < TABLE_LENGTH; i++)
+    {
+        if (strcmp(word, morse_table[i]))
+        {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+
 char* latin_to_morse(char character)
 {
     int index = index_of_char(character);
     return index == -1 ? "" : morse_table[index];
+}
+
+char morse_to_latin(char *letter)
+{
+    int index = index_of_morse(letter);
+    return index == -1 ? '?' : 'a' + index;
 }
