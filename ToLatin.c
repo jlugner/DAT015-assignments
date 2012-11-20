@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 Jesper Persson. All rights reserved.
 //
 
-#include <stdio.h>
 #include "MorseConversion.h"
+#include <stdio.h>
 
 int main(int argc, const char * argv[])
 {
+     
     char input[150];
     fgets(input, 150, stdin);
     char *input_Iterator = input;
@@ -23,8 +24,9 @@ int main(int argc, const char * argv[])
     
     while (*input_Iterator)
     {
-        if (*input_Iterator == ' ' || *input_Iterator == '\t')
+        if (*input_Iterator == ' ' || *input_Iterator == '\t' || *input_Iterator == '\n')
         {
+            tmp[i] = 0;
             *converted_Iterator = morse_to_latin(tmp);
             converted_Iterator++;
             i = 0;
@@ -43,5 +45,7 @@ int main(int argc, const char * argv[])
         
         input_Iterator++;
     }
+    
+    printf("%s", converted);
     
 }

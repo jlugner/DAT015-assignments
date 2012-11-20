@@ -56,7 +56,7 @@ char morse_to_latin(char *letter);
 //
 // Param - The char array to be printed
 // Return - None.
-void print_latin_in_morse(char sentance[] );
+void test_print_morse_in_latin();
 
 
 

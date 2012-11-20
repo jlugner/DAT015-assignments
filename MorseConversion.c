@@ -11,7 +11,7 @@
 #include <string.h>
 
 const int TABLE_LENGTH = 26;
-const char* morse_table[26] = {
+char* morse_table[26] = {
     ".-",           //A
     "-...",         //B
     "-.-.",         //C
@@ -29,7 +29,7 @@ const char* morse_table[26] = {
     "---",          //O
     ".--.",         //P
     "--.-",         //Q
-    "._.",          //R
+    ".-.",          //R
     "...",          //S
     "-",            //T
     "..-",          //U
@@ -81,7 +81,7 @@ int index_of_morse( char *word)
 {
     for (int i = 0; i < TABLE_LENGTH; i++)
     {
-        if (strcmp(word, morse_table[i]))
+        if (!strcmp(word, morse_table[i]))
         {
             return i;
         }
@@ -100,4 +100,11 @@ char morse_to_latin(char *letter)
 {
     int index = index_of_morse(letter);
     return index == -1 ? '?' : 'a' + index;
+}
+
+void test_print_morse_in_latin()
+{
+    for (int i = 0; i < TABLE_LENGTH; i++){
+        printf("%s%c%s", morse_table[i], morse_to_latin(morse_table[i]), "\n");
+    }
 }
