@@ -9,10 +9,39 @@
 #include <stdio.h>
 #include "MorseConversion.h"
 
-void print_morse_in_latin()
+int main(int argc, const char * argv[])
 {
-    char input[75];
-    fgets(input, 75, stdin);
+    char input[150];
+    fgets(input, 150, stdin);
+    char *input_Iterator = input;
     
+    char converted [75];
+    char *converted_Iterator = converted;
+    
+    char tmp [5];
+    int i = 0;
+    
+    while (*input_Iterator)
+    {
+        if (*input_Iterator == ' ' || *input_Iterator == '\t')
+        {
+            *converted_Iterator = morse_to_latin(tmp);
+            converted_Iterator++;
+            i = 0;
+            
+            if (*input_Iterator == '\t')
+            {
+                *converted_Iterator = ' ';
+                converted_Iterator++;
+            }
+        }
+        else
+        {
+            tmp[i] = *input_Iterator;
+            ++i;
+        }
+        
+        input_Iterator++;
+    }
     
 }

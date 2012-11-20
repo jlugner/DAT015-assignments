@@ -57,6 +57,12 @@ void print_latin_in_morse(char *sentance)
     }
 }
 
+void print_morse_in_latin(char sentance[])
+{
+    
+}
+
+
 int index_of_char(char character)
 {
     if (character >= 'A' && character <= 'Z')
