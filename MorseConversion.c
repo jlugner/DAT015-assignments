@@ -40,24 +40,24 @@ char* morse_table[26] = {
     "--.."          //Z
 };
 
-void print_latin_in_morse(char *sentance)
+void print_latin_in_morse(char *sentence)
 {
-    while(*sentance)
+    while(*sentence)
     {
-        if(*sentance == ' ')
+        if(*sentence == ' ')
         {
             printf("%c",'\t');
         }
-        else
+        else if (*sentence != '\n')
         {
-            printf("%s%c", latin_to_morse(*sentance), ' ');
+            printf("%s%c", latin_to_morse(*sentence), ' ');
         }
         
-        sentance++;
+        sentence++;
     }
 }
 
-void print_morse_in_latin(char sentance[])
+void print_morse_in_latin(char sentence[])
 {
     
 }

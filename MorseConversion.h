@@ -11,6 +11,8 @@
 
 
 
+void print_latin_in_morse(char *sentance);
+
 //
 // Given a character, will return the
 // index of that character. Sorted alphabetically.
