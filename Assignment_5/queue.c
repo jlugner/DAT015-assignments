@@ -15,3 +15,16 @@ struct qelemstruct
     int prio;                                           // Pointer to next and previous elements.
     DATA *data;                                         // Priority of the element.
 }                                                       // Pointer to the data-element.
+
+struct qstruct                                          // The type of a queue
+{
+    struct qelemstruct *head;                           // Pointer to the head element
+    int length;                                         // Number of elements in the queue.
+    
+}
+
+struct qiteratorstruct                                  // The type of an iterator
+{
+    struct qstruct *q;                                  // pointer to the queue.
+    struct qelemstruct *curr;                           // Pointer to the current element.
+}
