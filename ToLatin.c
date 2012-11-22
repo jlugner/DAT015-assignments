@@ -27,8 +27,13 @@ int main(int argc, const char * argv[])
         if (*input_Iterator == ' ' || *input_Iterator == '\t' || *input_Iterator == '\n')
         {
             tmp[i] = 0;
-            *converted_Iterator = morse_to_latin(tmp);
-            converted_Iterator++;
+            
+            if (morse_to_latin(tmp) != '?')
+            {
+                *converted_Iterator = morse_to_latin(tmp);
+                converted_Iterator++;
+            }
+            
             i = 0;
             
             if (*input_Iterator == '\t')
@@ -46,6 +51,6 @@ int main(int argc, const char * argv[])
         input_Iterator++;
     }
     
-    printf("%s", converted);
+    printf("%s%s", converted, "\n");
     
 }
