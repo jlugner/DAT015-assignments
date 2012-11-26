@@ -5,20 +5,20 @@
 //  Created by Jesper Persson on 2012-11-22.
 //  Copyright (c) 2012 Jesper Persson. All rights reserved.
 //
-
 #ifndef DATA
 #define DATA    void
 #endif
 
 #ifndef QUEUE_H
 #define QUEUE_H
-
-struct qstruct, qiteratorstruct;
+    
+struct qstruct;
+struct qiteratorstruct;
 
 typedef struct qstruct *Queue;
 typedef struct qiteratorstruct *Iterator;
 
-Queue new Queue();                          // Allocate memory for new queue
+Queue new_Queue();                          // Allocate memory for new queue
 void delete_queue();                        // Remove the entire queue
 void clear(Queue q);                        // Clear a queue, but keep it
 int size(Queue q);                          // Return the length of the queue
@@ -38,7 +38,7 @@ int is_valid(Iterator it);                  // Returns 0 if the iterator is inva
                                             // that is, not pointing at a element.
                                             // Will return 1 if iterator is valid.
 
-void change_current(Iterator it, Data *D)  // Point at d
+void change_current(Iterator it, DATA *D);  // Point at d
 void remove_current(Iterator it);           // Remove the element currently pointed at
 void find(Iterator it, DATA *d);            // Try to find d, if d is found, the iterator
                                             // will point at it, if not, it will take value 0.
