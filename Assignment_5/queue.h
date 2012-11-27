@@ -18,7 +18,7 @@ struct qiteratorstruct;
 typedef struct qstruct *Queue;
 typedef struct qiteratorstruct *Iterator;
 
-Queue new_Queue();                          // Allocate memory for new queue
+Queue new_queue();                          // Allocate memory for new queue
 void delete_queue();                        // Remove the entire queue
 void clear(Queue q);                        // Clear a queue, but keep it
 int size(Queue q);                          // Return the length of the queue

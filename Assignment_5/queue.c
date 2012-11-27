@@ -43,7 +43,7 @@ struct qelemstruct *new_Qelemstruct()
 }
 
 
-Queue new_Queue()
+Queue new_queue()
 {
     Queue theQueue = malloc(sizeof(struct qstruct));
     theQueue->head = new_Qelemstruct();
@@ -54,7 +54,7 @@ Queue new_Queue()
 
 void delete_queue(Queue queue)
 {
-    clear(q);
+    clear(queue);
     free(queue->head);
     free(queue);
 }
@@ -78,21 +78,72 @@ int size(Queue q)
     return q->length;
 }
 
-void add(Queue q, int priority, DATA *d);   // Place d in the specified index
+void add(Queue q, int priority, DATA *d)
+{
+    struct qelemstruct *element = new_Qelemstruct();
+    element->data = d;
+    element->prio = priority;
+    
+    Iterator it = new_iterator(q);
+    
+    if (is_valid(it))
+    {
+        while (is_valid(it))
+        {
+            if (element->prio > it->curr->prio)
+            {
+                // Make sure the link is complete - that the new element is placed in between
+                // the current element and the previous.
+                element->next = it->curr;
+                element->prev = it->curr->prev;
+                
+                it->curr->prev->next = element;
+                it->curr->prev = element;
+                
+                q->length++;
+                delete_iterator(it);
+                return;
+            }
+            go_to_next(it);
+        }
+        
+        // Entire queue checked, and no elements contain data with lower priority
+        // than the element to be added. The element is thus inserted last
+        go_to_last(it);
+        element->next = it->curr->next;
+        element->prev = it->curr;
+        
+        it->curr->next->prev = element;
+        it->curr->next = element;
+
+    }else{
+        q->head->next = element;
+        q->head->prev = element;
+        element->next = q->head;
+        element->prev = q->head;
+    }
+    
+    q->length++;
+    delete_iterator(it);
+    
+}
 
 DATA *get_first(Queue q)
 {
-    q->head->data;
+    return q->head->next->data;
 }
 
 void remove_first(Queue q)
 {
-    free(q->head);
+    Iterator it = new_iterator(q);
+    go_to_first(it);
+    remove_current(it);
+    delete_iterator(it);
 }
 
 Iterator new_iterator(Queue q)
 {
-    Iterator it = malloc(sizeof((struct qiteratorstruct));
+    Iterator it = malloc(sizeof(struct qiteratorstruct));
     it->q = q;
     go_to_first(it);
                          
@@ -136,7 +187,7 @@ void go_to_previous(Iterator it)
                          
 DATA *get_current(Iterator it)
 {
-    it->curr->data;
+   return it->curr->data;
 }
                          
 int is_valid(Iterator it)
