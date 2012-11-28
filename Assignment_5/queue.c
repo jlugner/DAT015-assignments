@@ -63,10 +63,9 @@ void clear(Queue q)
 {
     Iterator it = new_iterator(q);
     
-    for(int i = 0; i < q->length; i++)
+    for(go_to_first(it); is_valid(it); )
     {
         remove_current(it);
-        go_to_next(it);
     }
     
     delete_iterator(it);
@@ -181,18 +180,19 @@ void go_to_previous(Iterator it)
 {
     if (is_valid(it))
     {
-        it->curr = it->curr->next;
+        it->curr = it->curr->prev;
     }
 }
                          
 DATA *get_current(Iterator it)
 {
+
    return it->curr->data;
 }
                          
 int is_valid(Iterator it)
 {
-    return it->curr == it->q->head ? 0 : 1;
+    return it->curr != it->q->head;
 }
 
 void change_current(Iterator it, DATA *D)
@@ -205,11 +205,18 @@ void change_current(Iterator it, DATA *D)
                          
 void remove_current(Iterator it)
 {
-    it->curr->next->prev = it->curr->prev;
-    it->curr->prev->next = it->curr->next;
-    
-    free(it->curr);
+    if(is_valid(it)){
+        it->curr->next->prev = it->curr->prev;
+        it->curr->prev->next = it->curr->next;
+        
+        struct qelemstruct *tmp = it->curr->next;
+        free(it->curr);
+        it->curr = tmp;
+        
+        it->q->length--;
+    }
 }
+
                          
 void find(Iterator it, DATA *D)
 {
