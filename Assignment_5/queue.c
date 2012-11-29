@@ -63,10 +63,8 @@ void clear(Queue q)
 {
     Iterator it = new_iterator(q);
     
-    for(go_to_first(it); is_valid(it); )
-    {
-        remove_current(it);
-    }
+    for(go_to_first(it); is_valid(it); remove_current(it))
+        ;
     
     delete_iterator(it);
     q->length = 0;
@@ -84,46 +82,21 @@ void add(Queue q, int priority, DATA *d)
     element->prio = priority;
     
     Iterator it = new_iterator(q);
-    
-    if (is_valid(it))
-    {
-        while (is_valid(it))
-        {
-            if (element->prio > it->curr->prio)
-            {
-                // Make sure the link is complete - that the new element is placed in between
-                // the current element and the previous.
-                element->next = it->curr;
-                element->prev = it->curr->prev;
-                
-                it->curr->prev->next = element;
-                it->curr->prev = element;
-                
-                q->length++;
-                delete_iterator(it);
-                return;
-            }
-            go_to_next(it);
-        }
-        
-        // Entire queue checked, and no elements contain data with lower priority
-        // than the element to be added. The element is thus inserted last
-        go_to_last(it);
-        element->next = it->curr->next;
-        element->prev = it->curr;
-        
-        it->curr->next->prev = element;
-        it->curr->next = element;
 
-    }else{
-        q->head->next = element;
-        q->head->prev = element;
-        element->next = q->head;
-        element->prev = q->head;
-    }
-    
+    while (is_valid(it) && element->prio <= it->curr->prio)
+        go_to_next(it);
+                
+    element->next = it->curr;
+    element->prev = it->curr->prev;
+                
+    it->curr->prev->next = element;
+    it->curr->prev = element;
+                
     q->length++;
     delete_iterator(it);
+    
+    return;
+
     
 }
 
@@ -144,6 +117,7 @@ Iterator new_iterator(Queue q)
 {
     Iterator it = malloc(sizeof(struct qiteratorstruct));
     it->q = q;
+
     go_to_first(it);
                          
     return it;
@@ -152,9 +126,7 @@ Iterator new_iterator(Queue q)
 void delete_iterator(Iterator it)
 {
     if (it != NULL)
-    {
         free(it);
-    }
 }
                          
 void go_to_first(Iterator it)
@@ -171,22 +143,17 @@ void go_to_last(Iterator it)
 void go_to_next(Iterator it)
 {
     if (is_valid(it))
-    {
         it->curr = it->curr->next;
-    }
 }
                          
 void go_to_previous(Iterator it)
 {
     if (is_valid(it))
-    {
         it->curr = it->curr->prev;
-    }
 }
                          
 DATA *get_current(Iterator it)
 {
-
    return it->curr->data;
 }
                          
@@ -198,14 +165,13 @@ int is_valid(Iterator it)
 void change_current(Iterator it, DATA *D)
 {
     if (is_valid(it))
-    {
         it->curr->data = D;
-    }
 }
                          
 void remove_current(Iterator it)
 {
-    if(is_valid(it)){
+    if(is_valid(it))
+    {
         it->curr->next->prev = it->curr->prev;
         it->curr->prev->next = it->curr->next;
         
@@ -221,10 +187,6 @@ void remove_current(Iterator it)
 void find(Iterator it, DATA *D)
 {
     for (go_to_first(it); is_valid(it); go_to_next(it))
-    {
         if (it->curr->data == D)
-        {
             return;
-        }
-    }
 }
