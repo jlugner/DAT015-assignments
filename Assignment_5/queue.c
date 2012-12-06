@@ -168,7 +168,7 @@ void remove_current(Iterator it)
         it->curr->next->prev = it->curr->prev;
         it->curr->prev->next = it->curr->next;
         
-        struct qelemstruct *tmp = it->curr->next;
+        Element tmp = it->curr->next;
         free(it->curr);
         it->curr = tmp;
         
