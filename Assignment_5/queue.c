@@ -21,7 +21,6 @@ struct qstruct
 {
     struct qelemstruct *head;
     int length;
-    
 };
 
 struct qiteratorstruct
@@ -83,21 +82,16 @@ void add(Queue q, int priority, DATA *d)
     
     Iterator it = new_iterator(q);
 
-    while (is_valid(it) && element->prio <= it->curr->prio)
-        go_to_next(it);
+    for (; (is_valid(it) && element->prio <= it->curr->prio); go_to_next(it))
+         ;
                 
     element->next = it->curr;
-    element->prev = it->curr->prev;
-                
+    element->prev = it->curr->prev;          
     it->curr->prev->next = element;
     it->curr->prev = element;
                 
     q->length++;
-    delete_iterator(it);
-    
-    return;
-
-    
+    delete_iterator(it);    
 }
 
 DATA *get_first(Queue q)
@@ -132,7 +126,6 @@ void delete_iterator(Iterator it)
 void go_to_first(Iterator it)
 {
     it->curr = it->q->head->next;
-    
 }
                          
 void go_to_last(Iterator it)              
