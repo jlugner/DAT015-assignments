@@ -1,0 +1,54 @@
+;
+; Interrut.s12
+; Contains subroutine for when an interrupt is fired
+; and a subroutine used to initialize interrupts.
+; -----------------------------------------------------
+; Imports and exports
+	export	_init_irq
+; -----------------------------------------------------
+; Subroutine interrupt. Called when an interrupt 
+; is fired
+; -----------------------------------------------------
+
+interrupt:	
+		LDX	func_ptr
+		JSR	0,X
+		BSET	crgflg,#$80
+		RTI	
+	
+; ------------------------------------------------------
+; Subroutine init_irq. 
+; ------------------------------------------------------
+_init_irq:	
+		MOVB	#crg_delay,rtictl
+		MOVB	#$80,crgint
+		
+		LDX	2,SP
+		STX	func_ptr
+		MOVW	#interrupt,irq_vec
+		CLR	ML19_ack1
+		CLR	ML19_ack2
+		CLI
+		RTS	
+		
+; ------------------------------------------------------
+; Variables not depending on working environment
+func_ptr	RMB	2
+
+crgflg		EQU	$37
+crgint		EQU	$38
+rtictl		EQU	$3B
+
+ML19_ack1	EQU	$0DC2
+ML19_ack2	EQU	$0DC3
+;-------------------------------------------------------
+; Variables depending on working environment
+#ifdef	SIMULATOR
+irq_vec		EQU	$3FF0
+crg_delay	EQU	$10
+#else
+irq_vec		EQU	$3FF0
+crg_delay	EQU	$49
+#endif
+;-------------------------------------------------------
+
