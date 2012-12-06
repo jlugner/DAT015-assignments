@@ -30,9 +30,9 @@ struct qiteratorstruct
 };
 
 
-struct qelemstruct *new_Qelemstruct()
+Element new_Qelemstruct()
 {
-    struct qelemstruct *qelement = malloc(sizeof(struct qelemstruct));
+    Element qelement = malloc(sizeof(struct qelemstruct));
     qelement->next = qelement;
     qelement->prev = qelement;
     qelement->data = 0;
@@ -76,7 +76,7 @@ int size(Queue q)
 
 void add(Queue q, int priority, DATA *d)
 {
-    struct qelemstruct *element = new_Qelemstruct();
+    Element element = new_Qelemstruct();
     element->data = d;
     element->prio = priority;
     

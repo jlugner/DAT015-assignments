@@ -14,9 +14,11 @@
     
 struct qstruct;
 struct qiteratorstruct;
+struct qelemstruct;
 
 typedef struct qstruct *Queue;
 typedef struct qiteratorstruct *Iterator;
+typedef struct qelemstruct *Element;
 
 Queue new_queue();                          // Allocate memory for new queue
 void delete_queue();                        // Remove the entire queue
